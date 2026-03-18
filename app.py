@@ -33,7 +33,8 @@ model.eval()
 transform = transforms.Compose([
     transforms.Resize((32, 32)),   # must match train.py
     transforms.ToTensor(),
-    transforms.Normalize([0.5], [0.5])
+    transforms.Normalize([0.5, 0.5, 0.5],
+                        [0.5, 0.5, 0.5)
 ])
 
 @app.route("/")
@@ -54,4 +55,6 @@ def predict():
     return jsonify({"class": classes[predicted.item()]})
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port=int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
